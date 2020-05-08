@@ -9,17 +9,12 @@ fn main() {
 struct Walker {
   x: i32,
   y: i32,
-  has_background: bool,
 }
 
 fn model(app: &App) -> Walker {
   app.new_window().size(640, 360).view(view).build().unwrap();
 
-  Walker {
-    x: 0,
-    y: 0,
-    has_background: true,
-  }
+  Walker { x: 0, y: 0 }
 }
 
 fn update(_app: &App, model: &mut Walker, _update: Update) {
@@ -32,8 +27,6 @@ fn update(_app: &App, model: &mut Walker, _update: Update) {
     3 => model.y -= 1,
     _ => (),
   }
-
-  model.has_background = true;
 }
 
 fn view(app: &App, model: &Walker, frame: Frame) {
