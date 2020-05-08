@@ -1,9 +1,12 @@
 extern crate rand;
 use nannou::prelude::*;
-use rand::Rng;
 
 fn main() {
   nannou::app(model).update(update).run();
+}
+
+struct Model {
+  walker: Walker,
 }
 
 struct Walker {
@@ -11,25 +14,37 @@ struct Walker {
   y: i32,
 }
 
-fn model(app: &App) -> Walker {
-  app.new_window().size(640, 360).view(view).build().unwrap();
+impl Walker {
+  fn new() -> Walker {
+    Walker { x: 0, y: 0 }
+  }
 
-  Walker { x: 0, y: 0 }
-}
+  fn step(&mut self) {
+    let choice = random_range(0, 4);
 
-fn update(_app: &App, model: &mut Walker, _update: Update) {
-  let choice = rand::thread_rng().gen_range(0, 4);
-
-  match choice {
-    0 => model.x += 1,
-    1 => model.x -= 1,
-    2 => model.y += 1,
-    3 => model.y -= 1,
-    _ => (),
+    match choice {
+      0 => self.x += 1,
+      1 => self.x -= 1,
+      2 => self.y += 1,
+      3 => self.y -= 1,
+      _ => (),
+    }
   }
 }
 
-fn view(app: &App, model: &Walker, frame: Frame) {
+fn model(app: &App) -> Model {
+  app.new_window().size(640, 360).view(view).build().unwrap();
+
+  Model {
+    walker: Walker::new(),
+  }
+}
+
+fn update(_app: &App, Model { walker }: &mut Model, _update: Update) {
+  walker.step();
+}
+
+fn view(app: &App, Model { walker }: &Model, frame: Frame) {
   let draw = app.draw();
 
   if app.elapsed_frames() == 1 {
@@ -38,7 +53,7 @@ fn view(app: &App, model: &Walker, frame: Frame) {
 
   draw
     .ellipse()
-    .x_y(model.x as f32, model.y as f32)
+    .x_y(walker.x as f32, walker.y as f32)
     .w_h(2.0, 2.0)
     .rgba(0.0, 0.0, 0.0, 1.0);
 
