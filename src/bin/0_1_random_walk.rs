@@ -19,7 +19,7 @@ impl Walker {
     Walker { x: 0, y: 0 }
   }
 
-  fn step(&mut self) {
+  fn _four_step(&mut self) {
     let choice = random_range(0, 4);
 
     match choice {
@@ -29,6 +29,14 @@ impl Walker {
       3 => self.y -= 1,
       _ => (),
     }
+  }
+
+  fn eight_step(&mut self) {
+    let step_x = random_range(-1, 2);
+    let step_y = random_range(-1, 2);
+
+    self.x += step_x;
+    self.y += step_y;
   }
 }
 
@@ -41,7 +49,7 @@ fn model(app: &App) -> Model {
 }
 
 fn update(_app: &App, Model { walker }: &mut Model, _update: Update) {
-  walker.step();
+  walker.eight_step();
 }
 
 fn view(app: &App, Model { walker }: &Model, frame: Frame) {
