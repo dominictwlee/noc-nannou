@@ -48,6 +48,8 @@ fn update(_app: &App, Model { walker }: &mut Model, _update: Update) {
 
 fn view(app: &App, Model { walker }: &Model, frame: Frame) {
   let draw = app.draw();
+  let window_rect = app.window_rect();
+  let window_width = window_rect.w();
 
   if app.elapsed_frames() == 1 {
     draw.background().color(WHITE);
@@ -55,7 +57,10 @@ fn view(app: &App, Model { walker }: &Model, frame: Frame) {
 
   draw
     .ellipse()
-    .x_y(walker.x as f32, walker.y as f32)
+    .x_y(
+      (walker.x as f32).min(window_width / 2.0 - 5.0),
+      walker.y as f32,
+    )
     .w_h(2.0, 2.0)
     .rgba(0.0, 0.0, 0.0, 1.0);
 
