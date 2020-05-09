@@ -1,5 +1,6 @@
 extern crate rand;
 use nannou::prelude::*;
+use nannou::state::Mouse;
 
 fn main() {
   nannou::app(model).update(update).run();
@@ -19,7 +20,19 @@ impl Walker {
     Walker { x: 0, y: 0 }
   }
 
-  fn step(&mut self) {
+  fn step_mouse(&mut self, mouse_x: f32, mouse_y: f32) {
+    let r = random_f32();
+
+    if r < 0.5 {
+      self.x += mouse_x.signum() as i32;
+      self.y += mouse_y.signum() as i32;
+    } else {
+      self.x += random_range(-1, 2);
+      self.y += random_range(-1, 2);
+    }
+  }
+
+  fn _step(&mut self) {
     let r = random_f32();
 
     if r < 0.4 {
@@ -42,8 +55,9 @@ fn model(app: &App) -> Model {
   }
 }
 
-fn update(_app: &App, Model { walker }: &mut Model, _update: Update) {
-  walker.step();
+fn update(app: &App, Model { walker }: &mut Model, _update: Update) {
+  let Mouse { x, y, .. } = app.mouse;
+  walker.step_mouse(x, y);
 }
 
 fn view(app: &App, Model { walker }: &Model, frame: Frame) {
