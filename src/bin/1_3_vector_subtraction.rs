@@ -51,7 +51,7 @@ fn view(app: &App, model: &Model, frame: Frame) {
 
   draw
     .line()
-    .weight(2.0)
+    .weight(4.0)
     .color(BLACK)
     .points(model.anchor, model.mouse);
 
