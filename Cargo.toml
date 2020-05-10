@@ -9,3 +9,4 @@ edition = "2018"
 [dependencies]
 nannou = "0.14"
 rand = "0.5"
+perlin_noise = "1.0.1"

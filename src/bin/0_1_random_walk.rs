@@ -63,7 +63,9 @@ fn view(app: &App, Model { walker }: &Model, frame: Frame) {
     .ellipse()
     .x_y(walker.x as f32, walker.y as f32)
     .w_h(2.0, 2.0)
-    .rgba(0.0, 0.0, 0.0, 1.0);
+    .color(GREY)
+    .stroke_weight(2.0)
+    .stroke(BLACK);
 
   draw.to_frame(app, &frame).unwrap();
 }
