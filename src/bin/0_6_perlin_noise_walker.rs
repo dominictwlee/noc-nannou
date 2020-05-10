@@ -45,7 +45,7 @@ impl Walker {
       xn,
       -0.1,
       1.1,
-      -window_w_half - padding,
+      -window_w_half + padding,
       window_w_half - padding,
     );
     let mapped_y = map_range(
