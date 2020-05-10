@@ -1,9 +1,5 @@
-extern crate nannou;
-extern crate perlin_noise;
-extern crate rand;
-
+use nannou::noise::{NoiseFn, Perlin};
 use nannou::prelude::*;
-use perlin_noise::PerlinNoise;
 
 fn main() {
   nannou::app(model).update(update).run();
@@ -16,8 +12,8 @@ struct Model {
 struct Walker {
   x: f32,
   y: f32,
-  noise_x: PerlinNoise,
-  noise_y: PerlinNoise,
+  noise_x: Perlin,
+  noise_y: Perlin,
   tx: f32,
   ty: f32,
 }
@@ -27,34 +23,21 @@ impl Walker {
     Walker {
       x: 0.0,
       y: 0.0,
-      noise_x: PerlinNoise::new(),
-      noise_y: PerlinNoise::new(),
+      noise_x: Perlin::new(),
+      noise_y: Perlin::new(),
       tx: random_range(0.0, 1000.0),
       ty: random_range(0.0, 1000.0),
     }
   }
 
   fn step(&mut self, w: f32, h: f32) {
-    let xn = self.noise_x.get(self.tx as f64) as f32;
-    let yn = self.noise_y.get(self.ty as f64) as f32;
+    let xn = self.noise_x.get([self.tx as f64, 1.0]) as f32;
+    let yn = self.noise_y.get([self.ty as f64, 1.0]) as f32;
     let window_w_half = w / 2.0;
-    let window_h_half = h / 2.0;
-    let padding = 20.0;
+    let h_boundary = h / 2.0;
 
-    let mapped_x = map_range(
-      xn,
-      -0.1,
-      1.1,
-      -window_w_half + padding,
-      window_w_half - padding,
-    );
-    let mapped_y = map_range(
-      yn,
-      -0.1,
-      1.1,
-      -window_h_half - padding,
-      window_h_half - padding,
-    );
+    let mapped_x = map_range(xn, -0.1, 1.0, -100.0, window_w_half);
+    let mapped_y = map_range(yn, -0.1, 1.0, -80.0, h_boundary);
 
     self.x = mapped_x;
     self.y = mapped_y;
