@@ -36,15 +36,12 @@ fn update(app: &App, model: &mut Model, _update: Update) {
 
 fn view(app: &App, model: &Model, frame: Frame) {
   let draw = app.draw();
-  let window_rect = app.window_rect();
+  let win = app.window_rect();
+  let mag_rect = Rect::from_w_h(model.mag, 10.0).top_left_of(win);
 
   draw.background().color(WHITE);
 
-  draw
-    .rect()
-    .w_h(model.mag, 10.0)
-    .color(BLACK)
-    .xy(window_rect.top_left());
+  draw.rect().xy(mag_rect.xy()).wh(mag_rect.wh()).color(BLACK);
 
   draw
     .line()
